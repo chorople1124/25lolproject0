@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 data = {
     "player_id": [1,1,2,2,3,3,4,4,5,5],
@@ -13,16 +13,15 @@ df = pd.DataFrame(data)
 
 st.title("모든 플레이어 챔피언 사용 빈도 분석")
 
-usage_counts = df['champion'].value_counts()
+usage_counts = df['champion'].value_counts().reset_index()
+usage_counts.columns = ['챔피언', '사용 횟수']
 
-st.write("챔피언별 사용 횟수 (모든 플레이어 합산):")
-st.dataframe(usage_counts)
+fig = px.bar(usage_counts, x='챔피언', y='사용 횟수',
+             title='롤 챔피언 사용 빈도 (전체 플레이어)',
+             text='사용 횟수',
+             labels={'챔피언':'챔피언', '사용 횟수':'사용 횟수'})
 
-fig, ax = plt.subplots()
-usage_counts.plot(kind='bar', color='skyblue', edgecolor='black', ax=ax)
-plt.xlabel("챔피언")
-plt.ylabel("사용 횟수")
-plt.title("롤 챔피언 사용 빈도 (전체 플레이어)")
-plt.xticks(rotation=45)
+fig.update_traces(textposition='outside')
+fig.update_layout(xaxis_tickangle=-45)
 
-st.pyplot(fig)
+st.plotly_chart(fig, use_container_width=True)
