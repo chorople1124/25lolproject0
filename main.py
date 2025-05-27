@@ -1,12 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
-
-# 한글 폰트 설정 (본인 환경에 맞게 경로 바꿔야 함)
-font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
-fontprop = fm.FontProperties(fname=font_path, size=12)
-plt.rc('font', family=fontprop.get_name())
 
 data = {
     "player_id": [1,1,2,2,3,3,4,4,5,5],
@@ -26,9 +20,9 @@ st.dataframe(usage_counts)
 
 fig, ax = plt.subplots()
 usage_counts.plot(kind='bar', color='skyblue', edgecolor='black', ax=ax)
-plt.xlabel("챔피언", fontproperties=fontprop)
-plt.ylabel("사용 횟수", fontproperties=fontprop)
-plt.title("롤 챔피언 사용 빈도 (전체 플레이어)", fontproperties=fontprop)
+plt.xlabel("챔피언")
+plt.ylabel("사용 횟수")
+plt.title("롤 챔피언 사용 빈도 (전체 플레이어)")
 plt.xticks(rotation=45)
 
 st.pyplot(fig)
