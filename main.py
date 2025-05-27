@@ -9,7 +9,6 @@ data = {
 }
 df = pd.DataFrame(data).sort_values(by='우승 횟수', ascending=False)
 
-# 임의의 승패 기록 (예시)
 matches = {
     ('T1', 'Gen.G'): 3,
     ('T1', 'DRX'): 4,
@@ -21,55 +20,77 @@ matches = {
     ('T1', 'DK'): 1,
 }
 
-# 스트림릿 배경 어둡게 설정 (스타일 적용)
+# 보노보노 캐릭터 이미지 URL (예시 - 무료 이미지나 GIF로 교체 가능)
+bonobono_url = "https://upload.wikimedia.org/wikipedia/en/3/31/Bonobono_%28manga_character%29.png"
+
 st.markdown(
-    """
+    f"""
     <style>
-    .main {
-        background-color: #0a0a23;
-        color: #39ff14;
+    .main {{
+        background: linear-gradient(270deg, 
+            red, orange, yellow, green, blue, indigo, violet);
+        background-size: 1400% 1400%;
+        animation: rainbowBG 20s ease infinite;
+        color: #222;
         font-family: 'Courier New', Courier, monospace;
-    }
-    .neon-text {
+        position: relative;
+        min-height: 100vh;
+        padding: 2rem;
+        overflow-x: hidden;
+    }}
+    @keyframes rainbowBG {{
+        0% {{background-position: 0% 50%;}}
+        50% {{background-position: 100% 50%;}}
+        100% {{background-position: 0% 50%;}}
+    }}
+
+    .neon-text {{
         font-size: 3rem;
         font-weight: 900;
-        color: #39ff14;
+        color: white;
         text-align: center;
         margin-bottom: 1rem;
         text-shadow:
-            0 0 8px #39ff14,
-            0 0 15px #39ff14,
-            0 0 25px #39ff14,
-            0 0 50px #0ff,
-            0 0 80px #0ff,
-            0 0 100px #0ff;
-    }
-    .neon-subheader {
+            0 0 8px white,
+            0 0 15px white,
+            0 0 25px white,
+            0 0 50px cyan,
+            0 0 80px cyan,
+            0 0 100px cyan;
+    }}
+    .neon-subheader {{
         font-size: 1.75rem;
         font-weight: 700;
-        color: #0ff;
+        color: white;
         margin-top: 2rem;
         margin-bottom: 1rem;
         text-shadow:
-            0 0 5px #0ff,
-            0 0 10px #0ff,
-            0 0 20px #0ff,
-            0 0 40px #39ff14,
-            0 0 60px #39ff14;
-    }
-    .match-record {
+            0 0 5px cyan,
+            0 0 10px cyan,
+            0 0 20px cyan;
+    }}
+    .match-record {{
         font-size: 1.1rem;
         font-weight: 600;
-        color: #0ff;
+        color: white;
         margin-bottom: 0.6rem;
         text-shadow:
-            0 0 4px #0ff,
-            0 0 8px #0ff;
-    }
-    /* 플로틀리 차트 주변 여백 좀 더 넉넉히 */
-    .css-1d391kg {
-        padding: 1rem 1rem 2rem 1rem !important;
-    }
+            0 0 4px cyan,
+            0 0 8px cyan;
+    }}
+
+    /* 보노보노 이미지 스타일 */
+    .bonobono-img {{
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 150px;
+        opacity: 0.85;
+        z-index: 10;
+        user-select: none;
+        pointer-events: none;
+        filter: drop-shadow(0 0 5px white);
+    }}
     </style>
     """,
     unsafe_allow_html=True
@@ -77,7 +98,6 @@ st.markdown(
 
 st.markdown('<h1 class="neon-text">프로게이머 팀 우승 전적 TOP 10</h1>', unsafe_allow_html=True)
 
-# Plotly bar chart - 네온 블루 스타일
 fig = px.bar(
     df,
     x='팀명',
@@ -102,8 +122,8 @@ fig.update_layout(
     coloraxis_showscale=False,
     uniformtext_minsize=16,
     uniformtext_mode='hide',
-    plot_bgcolor='#0a0a23',
-    paper_bgcolor='#0a0a23',
+    plot_bgcolor='rgba(0,0,0,0)',
+    paper_bgcolor='rgba(0,0,0,0)',
     font=dict(color='cyan', family='Courier New', size=14),
     margin=dict(l=50, r=50, t=90, b=50),
     title_font=dict(size=26, color='cyan', family='Courier New', weight='bold'),
@@ -115,3 +135,6 @@ st.markdown('<h3 class="neon-subheader">주요 승패 기록</h3>', unsafe_allow
 
 for (winner, loser), count in matches.items():
     st.markdown(f'<p class="match-record">{winner} 팀이 {loser} 팀을 {count}회 이겼습니다.</p>', unsafe_allow_html=True)
+
+# 보노보노 캐릭터 이미지 추가
+st.markdown(f'<img src="{bonobono_url}" class="bonobono-img" alt="Bonobono 캐릭터">', unsafe_allow_html=True)
