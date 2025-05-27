@@ -2,40 +2,31 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# 임의의 프로게이머 팀 우승 기록 데이터
 data = {
-    "player_id": [1,1,2,2,3,3,4,4,5,5],
-    "game_id": [101,102,101,103,102,104,103,105,104,105],
-    "champion": ["아리", "리 신", "아리", "징크스", "리 신",
-                 "아리", "가렌", "징크스", "리 신", "가렌"]
+    '팀명': ['T1', 'Gen.G', 'DRX', 'DK', 'Fredit BRION', 'NS', 'KZ', 'Hanwha Life', 'Sandbox Gaming', 'Afreeca Freecs'],
+    '우승 횟수': [10, 7, 4, 6, 2, 1, 3, 2, 1, 1]
 }
 
-df = pd.DataFrame(data)
+df = pd.DataFrame(data).sort_values(by='우승 횟수', ascending=False)
 
-korean_players = [1, 2, 3]
-
-korean_df = df[df['player_id'].isin(korean_players)]
-
-usage_counts = korean_df['champion'].value_counts().head(10).reset_index()
-usage_counts.columns = ['챔피언', '사용 횟수']
-
-st.title("한국 플레이어 챔피언 사용 빈도 TOP 10")
+st.title("프로게이머 팀 우승 전적 TOP 10")
 
 fig = px.bar(
-    usage_counts,
-    x='챔피언',
-    y='사용 횟수',
-    text='사용 횟수',
-    labels={'챔피언': '챔피언', '사용 횟수': '사용 횟수'},
-    color='사용 횟수',
-    color_continuous_scale='Viridis',
-    template='plotly_dark',
-    title='한국 플레이어 챔피언 사용 빈도 TOP 10'
+    df,
+    x='팀명',
+    y='우승 횟수',
+    text='우승 횟수',
+    color='우승 횟수',
+    color_continuous_scale='Blues',
+    template='plotly_white',
+    title='프로게이머 팀 우승 전적 순위',
 )
 
 fig.update_traces(
     textposition='outside',
     marker_line_width=1.5,
-    marker_line_color='rgba(255,255,255,0.7)'
+    marker_line_color='rgba(0,0,0,0.5)'
 )
 
 fig.update_layout(
