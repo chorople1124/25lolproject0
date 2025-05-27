@@ -11,13 +11,20 @@ data = {
 
 df = pd.DataFrame(data)
 
-st.title("모든 플레이어 챔피언 사용 빈도 분석")
+# 한국 플레이어 id 리스트 (예시)
+korean_players = [1, 2, 3]
 
-usage_counts = df['champion'].value_counts().reset_index()
+# 한국 플레이어 데이터만 필터링
+korean_df = df[df['player_id'].isin(korean_players)]
+
+# 챔피언별 사용 횟수 집계
+usage_counts = korean_df['champion'].value_counts().head(10).reset_index()
 usage_counts.columns = ['챔피언', '사용 횟수']
 
+st.title("한국 플레이어 챔피언 사용 빈도 TOP 10")
+
 fig = px.bar(usage_counts, x='챔피언', y='사용 횟수',
-             title='롤 챔피언 사용 빈도 (전체 플레이어)',
+             title='한국 플레이어 챔피언 사용 빈도 TOP 10',
              text='사용 횟수',
              labels={'챔피언':'챔피언', '사용 횟수':'사용 횟수'})
 
